@@ -23,6 +23,7 @@
       --gradient-aurora: linear-gradient(135deg, rgba(250, 237, 237, 0.95), rgba(196, 168, 158, 0.92));
       --gradient-rose-gold: linear-gradient(135deg, var(--rosa-nude), var(--oro-viejo));
       --shadow-soft: 0 18px 40px rgba(136, 88, 60, 0.18);
+      --hero-min-height: 100vh;
     }
 
     * {
@@ -87,7 +88,7 @@
     }
 
     section {
-      margin: 64px 0;
+      margin: clamp(32px, 9vw, 80px) 0;
     }
 
     .hero {
@@ -95,10 +96,22 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      min-height: 92vh;
+      min-height: var(--hero-min-height);
       text-align: center;
       padding: 64px 24px 96px;
       color: #fff;
+    }
+
+    @supports (height: 100svh) {
+      :root {
+        --hero-min-height: 100svh;
+      }
+    }
+
+    @supports (height: 100dvh) {
+      :root {
+        --hero-min-height: 100dvh;
+      }
     }
 
     .hero::before {
