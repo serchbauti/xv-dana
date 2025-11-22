@@ -1159,14 +1159,16 @@
         <path fill="currentColor" d="M8 6a1 1 0 0 1 1 1v10a1 1 0 0 1-2 0V7a1 1 0 0 1 1-1Zm8 0a1 1 0 0 1 1 1v10a1 1 0 1 1-2 0V7a1 1 0 0 1 1-1Z" />
       </svg>
     </span>
-    <span class="music-toggle__label">Escuchar canción</span>
+    <span class="music-toggle__label">Activar sonido</span>
   </button>
 
   <div id="music-player-shell" aria-hidden="true">
     <audio
       id="bg-music"
       preload="auto"
+      autoplay
       muted
+      loop
       playsinline
       src="assets/Lady%20Gaga,%20Bruno%20Mars%20-%20Die%20With%20A%20Smile%20(Official%20Music%20Video)%20[kPa7bsKwL-c].mp3"
     ></audio>
@@ -1255,11 +1257,13 @@
     const AUTO_FADE_DURATION = 1600;
     const MANUAL_FADE_DURATION = 450;
     const MUSIC_LABEL_PLAYING = "Pausar canción";
-    const MUSIC_LABEL_IDLE = "Escuchar canción";
+    const MUSIC_LABEL_IDLE = "Activar sonido";
     const MUSIC_LABEL_LOADING = "Cargando canción...";
+    const MAX_AUTO_ATTEMPTS = 4;
     let musicStartApplied = false;
     let fadeIntervalId = null;
     let fadeTimeoutId = null;
+    let autoPlayAttempts = 0;
 
     function clampStartTime() {
       if (!musicAudio || Number.isNaN(musicAudio.duration) || !Number.isFinite(musicAudio.duration)) {
@@ -1360,12 +1364,20 @@
         musicAudio.volume = Math.min(1, Math.max(0, DEFAULT_VOLUME));
       }
 
+      if (musicAudio.autoplay !== true) {
+        musicAudio.autoplay = true;
+      }
+      if (musicAudio.loop !== true) {
+        musicAudio.loop = true;
+      }
+
       const playPromise = musicAudio.play();
       if (playPromise && typeof playPromise.then === "function") {
         playPromise
           .then(() => {
             setMusicLoading(false);
             setMusicToggleState(true);
+            autoPlayAttempts = MAX_AUTO_ATTEMPTS;
             if (autoTriggered) {
               fadeTimeoutId = setTimeout(() => {
                 if (!musicAudio) {
@@ -1382,10 +1394,15 @@
           .catch(() => {
             setMusicLoading(false);
             setMusicToggleState(false);
+            if (autoTriggered && autoPlayAttempts < MAX_AUTO_ATTEMPTS) {
+              const retryDelay = 800 + autoPlayAttempts * 400;
+              setTimeout(() => autoStartMusic(true), retryDelay);
+            }
           });
       } else {
         setMusicLoading(false);
         setMusicToggleState(true);
+        autoPlayAttempts = MAX_AUTO_ATTEMPTS;
         if (autoTriggered) {
           fadeTimeoutId = setTimeout(() => {
             if (!musicAudio) {
@@ -1426,6 +1443,7 @@
       musicAudio.addEventListener("play", () => {
         setMusicLoading(false);
         setMusicToggleState(true);
+        autoPlayAttempts = MAX_AUTO_ATTEMPTS;
       });
 
       musicAudio.addEventListener("pause", () => {
@@ -1439,6 +1457,11 @@
         if (musicAudio.dataset.autoplay === "true") {
           musicAudio.currentTime = clampStartTime();
         }
+        autoStartMusic(true);
+      });
+
+      musicAudio.addEventListener("canplaythrough", () => {
+        autoStartMusic(true);
       });
 
       musicAudio.addEventListener("ended", () => {
@@ -1448,13 +1471,26 @@
       });
     }
 
-    function autoStartMusic() {
-      if (!musicAudio || musicAudio.paused === false) return;
+    function autoStartMusic(force = false) {
+      if (!musicAudio) return;
+      if (!force && autoPlayAttempts >= MAX_AUTO_ATTEMPTS) return;
+      if (musicAudio.paused === false && !musicAudio.ended) return;
+      autoPlayAttempts += 1;
       requestPlayMusic(true);
     }
 
     window.addEventListener("load", () => {
       setTimeout(autoStartMusic, 400);
+    });
+
+    window.addEventListener("pageshow", () => {
+      setTimeout(() => autoStartMusic(true), 300);
+    });
+
+    document.addEventListener("visibilitychange", () => {
+      if (document.visibilityState === "visible") {
+        setTimeout(() => autoStartMusic(true), 250);
+      }
     });
 
     ["click", "touchstart"].forEach((evtName) => {
