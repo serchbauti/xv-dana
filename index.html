@@ -679,6 +679,97 @@
       outline: none;
     }
 
+    .music-toggle {
+      position: fixed;
+      bottom: calc(clamp(20px, 6vw, 40px) + env(safe-area-inset-bottom, 0px));
+      right: calc(18px + env(safe-area-inset-right, 0px));
+      z-index: 1200;
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      padding: 14px 18px;
+      background: rgba(253, 248, 248, 0.86);
+      border: 1px solid rgba(202, 180, 170, 0.55);
+      border-radius: 999px;
+      color: var(--oro-rosado);
+      font-weight: 500;
+      font-size: 0.95rem;
+      letter-spacing: 0.02rem;
+      box-shadow: 0 18px 36px rgba(155, 118, 97, 0.28);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      cursor: pointer;
+      transition: transform 0.3s ease, box-shadow 0.3s ease, background 0.3s ease, color 0.3s ease;
+    }
+
+    .music-toggle__icon {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      background: linear-gradient(135deg, rgba(228, 194, 189, 0.95), rgba(155, 118, 97, 0.85));
+      color: #fff;
+      box-shadow: 0 10px 24px rgba(155, 118, 97, 0.28);
+    }
+
+    .music-toggle svg {
+      width: 16px;
+      height: 16px;
+    }
+
+    .music-toggle .icon--pause {
+      display: none;
+    }
+
+    .music-toggle--playing {
+      background: linear-gradient(135deg, rgba(228, 194, 189, 0.94), rgba(155, 118, 97, 0.94));
+      color: #fff;
+      box-shadow: 0 28px 54px rgba(136, 88, 60, 0.32);
+    }
+
+    .music-toggle--playing .music-toggle__icon {
+      background: rgba(253, 248, 248, 0.22);
+      color: #fff;
+      box-shadow: 0 16px 32px rgba(0, 0, 0, 0.18);
+    }
+
+    .music-toggle--playing .icon--play {
+      display: none;
+    }
+
+    .music-toggle--playing .icon--pause {
+      display: block;
+    }
+
+    .music-toggle--loading {
+      cursor: wait;
+      box-shadow: 0 12px 24px rgba(136, 88, 60, 0.18);
+    }
+
+    .music-toggle--loading .music-toggle__icon {
+      opacity: 0.7;
+    }
+
+    .music-toggle--loading .music-toggle__label {
+      opacity: 0.85;
+    }
+
+    #music-player-shell {
+      position: fixed;
+      width: 0;
+      height: 0;
+      overflow: hidden;
+      pointer-events: none;
+      opacity: 0;
+    }
+
+    #bg-music {
+      width: 0;
+      height: 0;
+      display: none;
+    }
+
     .reveal {
       opacity: 0;
       transform: translateY(28px);
@@ -936,35 +1027,59 @@
         <div class="gallery-track" role="list">
           <figure class="gallery-card" data-tilt role="listitem">
             <img
-              src="https://images.unsplash.com/photo-1520854221050-0f4caff449fb?auto=format&fit=crop&w=900&q=80"
-              alt="Dana preparando los últimos detalles de su vestido rosa"
+              src="assets/WhatsApp%20Image%202025-11-21%20at%205.20.01%20PM.jpeg"
+              alt="Dana Paola sonriendo con luz cálida y fondo rosa"
               loading="lazy"
             />
-            <figcaption>Brillos antes del sí</figcaption>
           </figure>
           <figure class="gallery-card" data-tilt role="listitem">
             <img
-              src="https://images.unsplash.com/photo-1521572267360-ee0c2909d518?auto=format&fit=crop&w=900&q=80"
-              alt="Amigas celebrando con confeti dorado"
+              src="assets/WhatsApp%20Image%202025-11-21%20at%205.20.01%20PM(1).jpeg"
+              alt="Dana Paola con ramo rosa y detalles brillantes"
               loading="lazy"
             />
-            <figcaption>Celebrar con quienes amas</figcaption>
           </figure>
           <figure class="gallery-card" data-tilt role="listitem">
             <img
-              src="https://images.unsplash.com/photo-1542038784456-1ea8e935640e?auto=format&fit=crop&w=900&q=80"
-              alt="Decoración con luces cálidas y flores rosa nude"
+              src="assets/WhatsApp%20Image%202025-11-21%20at%205.20.01%20PM(2).jpeg"
+              alt="Detalle del vestido rosa gold con tul vaporoso"
               loading="lazy"
             />
-            <figcaption>Escenario rosa gold</figcaption>
           </figure>
           <figure class="gallery-card" data-tilt role="listitem">
             <img
-              src="https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=900&q=80"
-              alt="Baile de vals con luces doradas"
+              src="assets/WhatsApp%20Image%202025-11-21%20at%205.20.01%20PM(3).jpeg"
+              alt="Close up de maquillaje glam con destellos dorados"
               loading="lazy"
             />
-            <figcaption>Vals entre destellos</figcaption>
+          </figure>
+          <figure class="gallery-card" data-tilt role="listitem">
+            <img
+              src="assets/WhatsApp%20Image%202025-11-21%20at%205.20.02%20PM.jpeg"
+              alt="Dana Paola posando con luz suave y fondo crema"
+              loading="lazy"
+            />
+          </figure>
+          <figure class="gallery-card" data-tilt role="listitem">
+            <img
+              src="assets/WhatsApp%20Image%202025-11-21%20at%205.20.03%20PM.jpeg"
+              alt="Detalle de corona y peinado elegante"
+              loading="lazy"
+            />
+          </figure>
+          <figure class="gallery-card" data-tilt role="listitem">
+            <img
+              src="assets/WhatsApp%20Image%202025-11-21%20at%205.20.04%20PM.jpeg"
+              alt="Escena romántica con luces bokeh doradas"
+              loading="lazy"
+            />
+          </figure>
+          <figure class="gallery-card" data-tilt role="listitem">
+            <img
+              src="assets/WhatsApp%20Image%202025-11-21%20at%205.21.59%20PM.jpeg"
+              alt="Dana Paola disfrutando con familia y amigos"
+              loading="lazy"
+            />
           </figure>
         </div>
         <div class="gallery__hint">
@@ -1034,6 +1149,28 @@
       </div>
     </section>
   </main>
+
+  <button class="music-toggle" type="button" aria-pressed="false" aria-label="Escuchar Die With A Smile">
+    <span class="music-toggle__icon" aria-hidden="true">
+      <svg class="icon icon--play" viewBox="0 0 24 24">
+        <path fill="currentColor" d="M8 5.14a1 1 0 0 1 1.52-.85l9 6a1 1 0 0 1 0 1.7l-9 6A1 1 0 0 1 8 17.14Z" />
+      </svg>
+      <svg class="icon icon--pause" viewBox="0 0 24 24">
+        <path fill="currentColor" d="M8 6a1 1 0 0 1 1 1v10a1 1 0 0 1-2 0V7a1 1 0 0 1 1-1Zm8 0a1 1 0 0 1 1 1v10a1 1 0 1 1-2 0V7a1 1 0 0 1 1-1Z" />
+      </svg>
+    </span>
+    <span class="music-toggle__label">Escuchar canción</span>
+  </button>
+
+  <div id="music-player-shell" aria-hidden="true">
+    <audio
+      id="bg-music"
+      preload="auto"
+      muted
+      playsinline
+      src="assets/Lady%20Gaga,%20Bruno%20Mars%20-%20Die%20With%20A%20Smile%20(Official%20Music%20Video)%20[kPa7bsKwL-c].mp3"
+    ></audio>
+  </div>
 
   <footer>
     <p>Gracias por compartir este momento tan especial con nosotros.</p>
@@ -1109,6 +1246,224 @@
         });
       });
     }
+
+    const musicToggle = document.querySelector(".music-toggle");
+    const musicLabel = musicToggle?.querySelector(".music-toggle__label");
+    const musicAudio = document.getElementById("bg-music");
+    const MUSIC_START_TIME = 37;
+    const DEFAULT_VOLUME = 0.8;
+    const AUTO_FADE_DURATION = 1600;
+    const MANUAL_FADE_DURATION = 450;
+    const MUSIC_LABEL_PLAYING = "Pausar canción";
+    const MUSIC_LABEL_IDLE = "Escuchar canción";
+    const MUSIC_LABEL_LOADING = "Cargando canción...";
+    let musicStartApplied = false;
+    let fadeIntervalId = null;
+    let fadeTimeoutId = null;
+
+    function clampStartTime() {
+      if (!musicAudio || Number.isNaN(musicAudio.duration) || !Number.isFinite(musicAudio.duration)) {
+        return MUSIC_START_TIME;
+      }
+      return Math.min(MUSIC_START_TIME, Math.max(0, musicAudio.duration - 1));
+    }
+
+    function applyStartTime(force = false) {
+      if (!musicAudio) return;
+      if (!force && musicStartApplied) return;
+      const target = clampStartTime();
+      try {
+        musicAudio.currentTime = target;
+        musicStartApplied = true;
+        if (musicAudio.dataset.pendingSeek) {
+          delete musicAudio.dataset.pendingSeek;
+        }
+      } catch (error) {
+        // Some browsers require metadata first; retry once metadata is loaded.
+        if (!musicAudio.dataset.pendingSeek) {
+          musicAudio.dataset.pendingSeek = "true";
+          musicAudio.addEventListener(
+            "loadedmetadata",
+            () => {
+              delete musicAudio.dataset.pendingSeek;
+              applyStartTime(true);
+            },
+            { once: true }
+          );
+        }
+      }
+    }
+
+    function setMusicToggleState(isPlaying) {
+      if (!musicToggle || !musicLabel) return;
+      musicToggle.classList.toggle("music-toggle--playing", isPlaying);
+      musicToggle.setAttribute("aria-pressed", isPlaying ? "true" : "false");
+      musicLabel.textContent = isPlaying ? MUSIC_LABEL_PLAYING : MUSIC_LABEL_IDLE;
+    }
+
+    function setMusicLoading(isLoading) {
+      if (!musicToggle || !musicLabel) return;
+      musicToggle.classList.toggle("music-toggle--loading", isLoading);
+      if (isLoading) {
+        musicLabel.textContent = MUSIC_LABEL_LOADING;
+      } else {
+        const isPlaying = musicToggle.classList.contains("music-toggle--playing");
+        musicLabel.textContent = isPlaying ? MUSIC_LABEL_PLAYING : MUSIC_LABEL_IDLE;
+      }
+    }
+
+    function clearFadeTimers() {
+      if (fadeIntervalId) {
+        clearInterval(fadeIntervalId);
+        fadeIntervalId = null;
+      }
+      if (fadeTimeoutId) {
+        clearTimeout(fadeTimeoutId);
+        fadeTimeoutId = null;
+      }
+    }
+
+    function fadeToVolume(targetVolume, duration) {
+      if (!musicAudio) return;
+      clearFadeTimers();
+      const startVolume = musicAudio.volume;
+      const steps = Math.max(1, Math.round(duration / 60));
+      if (steps === 1) {
+        musicAudio.volume = Math.min(1, Math.max(0, targetVolume));
+        return;
+      }
+      let currentStep = 0;
+      fadeIntervalId = setInterval(() => {
+        currentStep += 1;
+        const progress = currentStep / steps;
+        const nextVolume = startVolume + (targetVolume - startVolume) * progress;
+        musicAudio.volume = Math.min(1, Math.max(0, nextVolume));
+        if (currentStep >= steps) {
+          clearFadeTimers();
+          musicAudio.volume = Math.min(1, Math.max(0, targetVolume));
+        }
+      }, duration / steps);
+    }
+
+    function requestPlayMusic(autoTriggered = false) {
+      if (!musicAudio) return;
+      applyStartTime();
+      setMusicLoading(true);
+
+      if (autoTriggered) {
+        musicAudio.dataset.autoplay = "true";
+        musicAudio.muted = true;
+        musicAudio.volume = 0;
+      } else {
+        delete musicAudio.dataset.autoplay;
+        musicAudio.muted = false;
+        musicAudio.volume = Math.min(1, Math.max(0, DEFAULT_VOLUME));
+      }
+
+      const playPromise = musicAudio.play();
+      if (playPromise && typeof playPromise.then === "function") {
+        playPromise
+          .then(() => {
+            setMusicLoading(false);
+            setMusicToggleState(true);
+            if (autoTriggered) {
+              fadeTimeoutId = setTimeout(() => {
+                if (!musicAudio) {
+                  return;
+                }
+                musicAudio.muted = false;
+                fadeToVolume(DEFAULT_VOLUME, AUTO_FADE_DURATION);
+                delete musicAudio.dataset.autoplay;
+              }, 500);
+            } else {
+              fadeToVolume(DEFAULT_VOLUME, MANUAL_FADE_DURATION);
+            }
+          })
+          .catch(() => {
+            setMusicLoading(false);
+            setMusicToggleState(false);
+          });
+      } else {
+        setMusicLoading(false);
+        setMusicToggleState(true);
+        if (autoTriggered) {
+          fadeTimeoutId = setTimeout(() => {
+            if (!musicAudio) {
+              return;
+            }
+            musicAudio.muted = false;
+            fadeToVolume(DEFAULT_VOLUME, AUTO_FADE_DURATION);
+            delete musicAudio.dataset.autoplay;
+          }, 500);
+        } else {
+          fadeToVolume(DEFAULT_VOLUME, MANUAL_FADE_DURATION);
+        }
+      }
+    }
+
+    function requestPauseMusic() {
+      if (!musicAudio) return;
+      musicAudio.pause();
+      clearFadeTimers();
+      setMusicToggleState(false);
+      setMusicLoading(false);
+    }
+
+    if (musicToggle && musicLabel) {
+      setMusicToggleState(false);
+      musicToggle.addEventListener("click", () => {
+        const isPlaying = musicToggle.classList.contains("music-toggle--playing");
+        if (isPlaying) {
+          setMusicLoading(false);
+          requestPauseMusic();
+        } else {
+          requestPlayMusic();
+        }
+      });
+    }
+
+    if (musicAudio) {
+      musicAudio.addEventListener("play", () => {
+        setMusicLoading(false);
+        setMusicToggleState(true);
+      });
+
+      musicAudio.addEventListener("pause", () => {
+        setMusicLoading(false);
+        setMusicToggleState(false);
+        clearFadeTimers();
+      });
+
+      musicAudio.addEventListener("loadedmetadata", () => {
+        applyStartTime(true);
+        if (musicAudio.dataset.autoplay === "true") {
+          musicAudio.currentTime = clampStartTime();
+        }
+      });
+
+      musicAudio.addEventListener("ended", () => {
+        musicStartApplied = false;
+        applyStartTime(true);
+        requestPlayMusic(true);
+      });
+    }
+
+    function autoStartMusic() {
+      if (!musicAudio || musicAudio.paused === false) return;
+      requestPlayMusic(true);
+    }
+
+    window.addEventListener("load", () => {
+      setTimeout(autoStartMusic, 400);
+    });
+
+    ["click", "touchstart"].forEach((evtName) => {
+      const handler = () => {
+        autoStartMusic();
+        document.removeEventListener(evtName, handler);
+      };
+      document.addEventListener(evtName, handler);
+    });
   </script>
 </body>
 </html>
